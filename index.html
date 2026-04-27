@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Object Stack JS</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header>
+      <h1>Object Stack JS</h1>
+      <p>Build the stack by choosing tiles and change conditions. Try to stack all tiles!</p>
+    </header>
+
+    <section class="score-panel">
+      <div>
+        <strong>Best score:</strong>
+        <span id="highscore-name">Nobody</span>/<span id="highscore-value">0</span>
+      </div>
+      <div>
+        <strong>Status:</strong>
+        <span id="game-status">Ready to start</span>
+      </div>
+    </section>
+
+    <main>
+      <section class="game-board">
+        <div class="board-panel">
+          <h2>Current stack</h2>
+          <div id="stack-display" class="stack-display">No tiles yet.</div>
+        </div>
+
+        <div class="board-panel">
+          <h2>Available tiles</h2>
+          <div id="available-tiles" class="tile-grid"></div>
+        </div>
+      </section>
+
+      <section class="controls-panel">
+        <div class="control-block">
+          <h2 id="next-choice-title">Next choice</h2>
+          <p id="next-message">Press Start Game to begin.</p>
+          <div class="button-row" id="condition-buttons">
+            <button data-condition="f" disabled>f (form change)</button>
+            <button data-condition="s" disabled>s (size change)</button>
+            <button data-condition="c" disabled>c (color change)</button>
+          </div>
+        </div>
+
+        <div class="control-block">
+          <h2>Game summary</h2>
+          <ul class="summary-list">
+            <li>Tiles stacked: <strong id="stack-count">0</strong></li>
+            <li>Unused tiles: <strong id="unused-count">0</strong></li>
+            <li>Elapsed time: <strong id="elapsed-time">0.00</strong> s</li>
+            <li>Score: <strong id="score-value">0</strong></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="action-panel">
+        <button id="new-game-button">Start New Game</button>
+      </section>
+
+      <section id="end-screen" class="end-screen hidden">
+        <h2 id="end-title">Game Over</h2>
+        <p id="end-description"></p>
+        <label>
+          Enter your name to save the score:
+          <input id="player-name" type="text" maxlength="24" placeholder="Your name" />
+        </label>
+        <button id="save-score-button">Save Score</button>
+        <section id="highscore-panel" class="hidden">
+          <h3>Top 10 Highscores</h3>
+          <table id="highscore-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Score</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
