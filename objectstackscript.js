@@ -227,13 +227,7 @@ function renderTiles() {
     shapeElement.className = `tile-shape ${shapeClass}${isLarge ? ' large' : ''}`;
     shapeElement.style.color = shapeColor;
 
-    const label = document.createElement('div');
-    label.textContent = formatTileLabel(tile);
-    label.style.fontSize = '0.75rem';
-    label.style.opacity = '0.8';
-
     shapeContainer.appendChild(shapeElement);
-    shapeContainer.appendChild(label);
     item.appendChild(shapeContainer);
 
     const backgroundColor = tileColorMap[colorCode] || 'rgba(255, 255, 255, 0.08)';
@@ -291,13 +285,7 @@ function renderStack() {
     shapeElement.className = `tile-shape ${shapeClass}${isLarge ? ' large' : ''}`;
     shapeElement.style.color = shapeColor;
 
-    const label = document.createElement('div');
-    label.textContent = formatTileLabel(tile);
-    label.style.fontSize = '0.7rem';
-    label.style.opacity = '0.8';
-
     shapeContainer.appendChild(shapeElement);
-    shapeContainer.appendChild(label);
     tileElement.appendChild(shapeContainer);
 
     const colorCode2 = tile[2];
