@@ -268,12 +268,11 @@ function renderStack() {
     tileElement.className = 'tile-card selected';
     tileElement.title = decodeTile(tile);
 
-    // Create shape element for stack
     const shapeContainer = document.createElement('div');
     shapeContainer.style.display = 'flex';
     shapeContainer.style.flexDirection = 'column';
     shapeContainer.style.alignItems = 'center';
-    shapeContainer.style.gap = '4px';
+    shapeContainer.style.gap = '6px';
 
     const shapeLetter = tile[0];
     const shapeClass = getShapeClass(shapeLetter);
