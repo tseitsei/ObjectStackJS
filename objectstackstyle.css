@@ -275,6 +275,60 @@ main {
   background: rgba(94, 182, 255, 0.18);
 }
 
+/* Shape styles for tiles */
+.tile-shape {
+  width: 20px;
+  height: 20px;
+  position: relative;
+}
+
+.tile-shape.square {
+  width: 20px;
+  height: 20px;
+  background: currentColor;
+  border-radius: 2px;
+}
+
+.tile-shape.circle {
+  width: 20px;
+  height: 20px;
+  background: currentColor;
+  border-radius: 50%;
+}
+
+.tile-shape.triangle {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 20px solid currentColor;
+  margin: -3px 0 0 0;
+}
+
+/* Size variations for small/large tiles */
+.tile-shape.large {
+  width: 32px;
+  height: 32px;
+}
+
+.tile-shape.large.square {
+  width: 32px;
+  height: 32px;
+  border-radius: 3px;
+}
+
+.tile-shape.large.circle {
+  width: 32px;
+  height: 32px;
+}
+
+.tile-shape.large.triangle {
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+  border-bottom: 32px solid currentColor;
+  margin: -4px 0 0 0;
+}
+
 @media (max-width: 900px) {
   .game-board,
   .controls-panel {

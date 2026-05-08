@@ -177,6 +177,23 @@ function hasPossibleNextMove(availableObjects) {
   return ['f', 's', 'c'].some(condition => getPossibleNextObjects(condition, availableObjects).length > 0);
 }
 
+function getShapeClass(letter) {
+  const shapeLetter = letter.toLowerCase();
+  if (shapeLetter === 's') return 'square';
+  if (shapeLetter === 'c') return 'circle';
+  if (shapeLetter === 't') return 'triangle';
+  return 'square';
+}
+
+function getShapeColor(colorCode) {
+  const colorMap = {
+    '1': '#ff6b6b',
+    '2': '#51cf66',
+    '3': '#74c0fc',
+  };
+  return colorMap[colorCode] || '#f8fafc';
+}
+
 function renderTiles() {
   availableTiles.innerHTML = '';
   const possible = condition === '*' ? available : getPossibleNextObjects(condition, available);
@@ -191,10 +208,34 @@ function renderTiles() {
     item.type = 'button';
     item.className = 'tile-card';
     item.dataset.tile = tile;
-    item.textContent = formatTileLabel(tile);
     item.title = decodeTile(tile);
 
+    // Create shape element
+    const shapeContainer = document.createElement('div');
+    shapeContainer.style.display = 'flex';
+    shapeContainer.style.flexDirection = 'column';
+    shapeContainer.style.alignItems = 'center';
+    shapeContainer.style.gap = '6px';
+
+    const shapeLetter = tile[0];
+    const shapeClass = getShapeClass(shapeLetter);
+    const isLarge = shapeLetter === shapeLetter.toUpperCase();
     const colorCode = tile[2];
+    const shapeColor = getShapeColor(colorCode);
+
+    const shapeElement = document.createElement('div');
+    shapeElement.className = `tile-shape ${shapeClass}${isLarge ? ' large' : ''}`;
+    shapeElement.style.color = shapeColor;
+
+    const label = document.createElement('div');
+    label.textContent = formatTileLabel(tile);
+    label.style.fontSize = '0.75rem';
+    label.style.opacity = '0.8';
+
+    shapeContainer.appendChild(shapeElement);
+    shapeContainer.appendChild(label);
+    item.appendChild(shapeContainer);
+
     const backgroundColor = tileColorMap[colorCode] || 'rgba(255, 255, 255, 0.08)';
     item.style.backgroundColor = backgroundColor;
     item.style.color = '#f8fafc';
@@ -231,10 +272,36 @@ function renderStack() {
   stack.forEach(tile => {
     const tileElement = document.createElement('div');
     tileElement.className = 'tile-card selected';
-    tileElement.textContent = tile;
     tileElement.title = decodeTile(tile);
+
+    // Create shape element for stack
+    const shapeContainer = document.createElement('div');
+    shapeContainer.style.display = 'flex';
+    shapeContainer.style.flexDirection = 'column';
+    shapeContainer.style.alignItems = 'center';
+    shapeContainer.style.gap = '4px';
+
+    const shapeLetter = tile[0];
+    const shapeClass = getShapeClass(shapeLetter);
+    const isLarge = shapeLetter === shapeLetter.toUpperCase();
     const colorCode = tile[2];
-    tileElement.style.backgroundColor = tileColorMap[colorCode] || 'rgba(255, 255, 255, 0.08)';
+    const shapeColor = getShapeColor(colorCode);
+
+    const shapeElement = document.createElement('div');
+    shapeElement.className = `tile-shape ${shapeClass}${isLarge ? ' large' : ''}`;
+    shapeElement.style.color = shapeColor;
+
+    const label = document.createElement('div');
+    label.textContent = formatTileLabel(tile);
+    label.style.fontSize = '0.7rem';
+    label.style.opacity = '0.8';
+
+    shapeContainer.appendChild(shapeElement);
+    shapeContainer.appendChild(label);
+    tileElement.appendChild(shapeContainer);
+
+    const colorCode2 = tile[2];
+    tileElement.style.backgroundColor = tileColorMap[colorCode2] || 'rgba(255, 255, 255, 0.08)';
     tileElement.style.color = '#f8fafc';
     tileElement.style.borderColor = 'rgba(255,255,255,0.12)';
     stackDisplay.appendChild(tileElement);
