@@ -103,9 +103,9 @@ main {
 .tile-card {
   display: grid;
   place-items: center;
-  min-height: 50px;
-  padding: 12px;
-  border-radius: 16px;
+  min-height: 42px;
+  padding: 10px;
+  border-radius: 14px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid transparent;
   color: var(--text);
@@ -335,3 +335,83 @@ main {
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 640px) {
+  .app-shell {
+    padding: 16px;
+  }
+
+  header h1 {
+    font-size: clamp(1.8rem, 7vw, 2.6rem);
+  }
+
+  .score-panel {
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .board-panel,
+  .control-block,
+  .end-screen {
+    padding: 16px;
+  }
+
+  .tile-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .tile-card {
+    min-height: 36px;
+    padding: 8px;
+    border-radius: 12px;
+  }
+
+  .stack-display {
+    min-height: 100px;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .button-row,
+  .action-panel {
+    gap: 10px;
+  }
+
+  .button-row button,
+  .action-panel button,
+  #save-score-button {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+
+  .summary-list li,
+  #next-message,
+  .board-panel h2,
+  .control-block h2 {
+    font-size: 0.9rem;
+  }
+
+  .tile-shape {
+    width: 18px;
+    height: 18px;
+  }
+
+  .tile-shape.large {
+    width: 26px;
+    height: 26px;
+  }
+
+  .tile-shape.triangle {
+    border-left-width: 9px;
+    border-right-width: 9px;
+    border-bottom-width: 18px;
+  }
+
+  .tile-shape.large.triangle {
+    border-left-width: 13px;
+    border-right-width: 13px;
+    border-bottom-width: 26px;
+  }
+}
+
