@@ -189,6 +189,10 @@ let gameOver = false;
 let selectedTile = null;
 let finalElapsed = 0;
 let finalScore = 0;
+let lastGameWin = false;
+let endDescriptionKey = null;
+let endDescriptionParams = {};
+let scoreSavedAlready = false;
 let highscore = { score: 0, name: 'Nobody' };
 let highscores = [];
 function updateLanguageTexts() {
@@ -209,6 +213,15 @@ function updateLanguageTexts() {
   conditionButtons[0].textContent = getText('form');
   conditionButtons[1].textContent = getText('size');
   conditionButtons[2].textContent = getText('color');
+
+  // Keep save button label in sync with its current mode after language changes
+  if (saveScoreButton.dataset.mode === 'save') {
+    saveScoreButton.textContent = getText('saveScore');
+  } else if (saveScoreButton.dataset.mode === 'hide') {
+    saveScoreButton.textContent = getText('hideHighscore');
+  } else if (saveScoreButton.dataset.mode === 'show') {
+    saveScoreButton.textContent = getText('showHighscore');
+  }
 }
 
 function decodeTile(object) {
@@ -531,6 +544,10 @@ function chooseCondition(value) {
 
 function finishGame(win) {
   gameOver = true;
+  lastGameWin = win;
+  endDescriptionKey = win ? 'stackedAll' : 'noValidMove';
+  endDescriptionParams = {};
+
   if (startTime) {
     finalElapsed = Math.round(((Date.now() - startTime) / 1000) * 100) / 100;
   } else {
@@ -540,9 +557,7 @@ function finishGame(win) {
   elapsedTime.textContent = finalElapsed.toFixed(2);
   endScreen.classList.remove('hidden');
   endTitle.textContent = win ? getText('congratulations') : getText('gameOver');
-  endDescription.textContent = win
-    ? getText('stackedAll')
-    : getText('noValidMove');
+  endDescription.textContent = getText(endDescriptionKey, endDescriptionParams);
   evaluateFinalScore(win);
   render();
 }
@@ -582,8 +597,10 @@ function startGame() {
   finalScore = 0;
   endScreen.classList.add('hidden');
   highscorePanel.classList.add('hidden');
+  saveScoreButton.dataset.mode = 'save';
   saveScoreButton.textContent = getText('saveScore');
   saveScoreButton.disabled = false;
+  scoreSavedAlready = false;
   playerNameInput.value = '';
   elapsedTime.textContent = '0.00';
   nextMessage.textContent = getText('chooseFirstTile');
@@ -599,7 +616,11 @@ conditionButtons.forEach(button => {
 newGameButton.addEventListener('click', startGame);
 
 saveScoreButton.addEventListener('click', () => {
-  if (saveScoreButton.textContent === getText('saveScore')) {
+  const currentMode = saveScoreButton.dataset.mode || 'save';
+  if (currentMode === 'save') {
+    if (scoreSavedAlready) {
+      return;
+    }
     const name = playerNameInput.value.trim() || 'Anonymous';
     const score = computeScore();
     const entry = {
@@ -611,19 +632,27 @@ saveScoreButton.addEventListener('click', () => {
     const saved = saveHighscore(entry);
     renderHighscoreTable();
     highscorePanel.classList.remove('hidden');
+    saveScoreButton.dataset.mode = 'hide';
     saveScoreButton.textContent = getText('hideHighscore');
     saveScoreButton.disabled = false;
+    scoreSavedAlready = true;
 
     if (saved) {
-      endDescription.textContent = getText('scoreSaved', { name });
+      endDescriptionKey = 'scoreSaved';
+      endDescriptionParams = { name };
+      endDescription.textContent = getText(endDescriptionKey, endDescriptionParams);
     } else {
-      endDescription.textContent = getText('scoreSavedNotHigher');
+      endDescriptionKey = 'scoreSavedNotHigher';
+      endDescriptionParams = {};
+      endDescription.textContent = getText(endDescriptionKey, endDescriptionParams);
     }
-  } else if (saveScoreButton.textContent === getText('hideHighscore')) {
+  } else if (currentMode === 'hide') {
     highscorePanel.classList.add('hidden');
+    saveScoreButton.dataset.mode = 'show';
     saveScoreButton.textContent = getText('showHighscore');
-  } else if (saveScoreButton.textContent === getText('showHighscore')) {
+  } else if (currentMode === 'show') {
     highscorePanel.classList.remove('hidden');
+    saveScoreButton.dataset.mode = 'hide';
     saveScoreButton.textContent = getText('hideHighscore');
   }
 });
@@ -640,11 +669,10 @@ langSelect.addEventListener('change', () => {
   // Re-render to update dynamic texts
   render();
   if (gameOver) {
-    evaluateFinalScore(finalScore > 0); // Re-evaluate to update messages
+    endTitle.textContent = lastGameWin ? getText('congratulations') : getText('gameOver');
+    if (endDescriptionKey) {
+      endDescription.textContent = getText(endDescriptionKey, endDescriptionParams);
+    }
+    evaluateFinalScore(lastGameWin);
   }
 });
-
-loadHighscore();
-langSelect.value = currentLang;
-updateLanguageTexts();
-startGame();
