@@ -186,6 +186,7 @@ let condition = '*';
 let startTime = null;
 let timerId = null;
 let gameOver = false;
+let gameStarted = false;
 let selectedTile = null;
 let finalElapsed = 0;
 let finalScore = 0;
@@ -474,8 +475,19 @@ function updateControls() {
 
   const score = computeScore();
   scoreValue.textContent = score;
-  gameStatus.textContent = gameOver ? getText('finished') : (condition === '' ? getText('pickCondition') : getText('chooseTile'));
+  gameStatus.textContent = gameOver ? getText('finished') : (!gameStarted ? getText('readyToStart') : (condition === '' ? getText('pickCondition') : getText('chooseTile')));
   nextChoiceTitle.textContent = gameOver ? getText('gameOver') : getText('nextChoice');
+
+  if (!gameOver) {
+    if (condition === '*') {
+      nextMessage.textContent = getText('chooseFirstTile');
+    } else if (condition === '') {
+      nextMessage.textContent = getText('selectNextCondition');
+    } else {
+      const topTile = stack[stack.length - 1];
+      nextMessage.textContent = getText('currentTopTile', { tile: topTile, desc: decodeTile(topTile) });
+    }
+  }
 }
 
 function calculateScore(elapsedSeconds, objectsInStack) {
@@ -523,7 +535,6 @@ function addTile(tile) {
 
   condition = '';
   render();
-  nextMessage.textContent = getText('selectNextCondition');
   conditionButtons.forEach(btn => btn.disabled = false);
 }
 
@@ -538,7 +549,6 @@ function chooseCondition(value) {
     return;
   }
   const topTile = stack[stack.length - 1];
-  nextMessage.textContent = getText('currentTopTile', { tile: topTile, desc: decodeTile(topTile) });
   render();
 }
 
@@ -592,6 +602,7 @@ function startGame() {
   condition = '*';
   startTime = null;
   gameOver = false;
+  gameStarted = true;
   selectedTile = null;
   finalElapsed = 0;
   finalScore = 0;
@@ -603,7 +614,6 @@ function startGame() {
   scoreSavedAlready = false;
   playerNameInput.value = '';
   elapsedTime.textContent = '0.00';
-  nextMessage.textContent = getText('chooseFirstTile');
   render();
 }
 
@@ -680,6 +690,7 @@ langSelect.addEventListener('change', () => {
 loadHighscore();
 langSelect.value = currentLang;
 updateLanguageTexts();
-// Show all tiles in ready state
+// Initialize to "Choose a tile" state
+gameStarted = true;
 available = [...tiles];
 render();
