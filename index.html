@@ -9,38 +9,45 @@
 <body>
   <div class="app-shell">
     <header>
-      <h1>Object Stack JS</h1>
-      <p>Build the stack by choosing tiles and change conditions. Try to stack all tiles!</p>
+      <h1 data-i18n="title">Object Stack JS</h1>
+      <p data-i18n="subtitle">Build the stack by choosing tiles and change conditions. Try to stack all tiles!</p>
+      <div class="language-selector">
+        <label for="lang-select" data-i18n="language">Language:</label>
+        <select id="lang-select">
+          <option value="en" data-i18n="english">English</option>
+          <option value="fi" data-i18n="finnish">Finnish</option>
+        </select>
+      </div>
     </header>
 
     <section class="score-panel">
       <div>
-        <strong>Best score:</strong>
+        <strong data-i18n="bestScore">Best score:</strong>
         <span id="highscore-name">Nobody</span>/<span id="highscore-value">0</span>
       </div>
       <div>
-        <strong>Status:</strong>
-        <span id="game-status">Ready to start</span>
+        <strong data-i18n="status">Status:</strong>
+        <span id="game-status" data-i18n="readyToStart">Ready to start</span>
       </div>
     </section>
 
     <main>
       <section class="game-board">
         <div class="board-panel">
-          <h2>Current stack</h2>
-          <div id="stack-display" class="stack-display">No tiles yet.</div>
+          <h2 data-i18n="currentStack">Current stack</h2>
+          <div id="stack-display" class="stack-display" data-i18n="noTilesYet">No tiles yet.</div>
         </div>
 
         <div class="board-panel">
-          <h2>Available tiles</h2>
+          <h2 data-i18n="availableTiles">Available tiles</h2>
           <div id="available-tiles" class="tile-grid"></div>
         </div>
       </section>
 
       <section class="controls-panel">
         <div class="control-block">
-          <h2 id="next-choice-title">Next choice</h2>
-          <p id="next-message">Press Start Game to begin.</p>
+          <h2 id="next-choice-title" data-i18n="nextChoice">Next choice</h2>
+          <p id="next-message" data-i18n="pressStart">Press Start Game to begin.</p>
           <div class="button-row" id="condition-buttons">
             <button data-condition="f" disabled>Form</button>
             <button data-condition="s" disabled>Size</button>
@@ -49,37 +56,37 @@
         </div>
 
         <div class="control-block">
-          <h2>Game summary</h2>
+          <h2 data-i18n="gameSummary">Game summary</h2>
           <ul class="summary-list">
-            <li>Tiles stacked: <strong id="stack-count">0</strong></li>
-            <li>Unused tiles: <strong id="unused-count">0</strong></li>
-            <li>Elapsed time: <strong id="elapsed-time">0.00</strong> s</li>
-            <li>Score: <strong id="score-value">0</strong></li>
+            <li><span data-i18n="tilesStacked">Tiles stacked:</span> <strong id="stack-count">0</strong></li>
+            <li><span data-i18n="unusedTiles">Unused tiles:</span> <strong id="unused-count">0</strong></li>
+            <li><span data-i18n="elapsedTime">Elapsed time:</span> <strong id="elapsed-time">0.00</strong> s</li>
+            <li><span data-i18n="score">Score:</span> <strong id="score-value">0</strong></li>
           </ul>
         </div>
       </section>
 
       <section class="action-panel">
-        <button id="new-game-button">Start New Game</button>
+        <button id="new-game-button" data-i18n="startNewGame">Start New Game</button>
       </section>
 
       <section id="end-screen" class="end-screen hidden">
         <h2 id="end-title">Game Over</h2>
         <p id="end-description"></p>
         <label>
-          Enter your name to save the score:
-          <input id="player-name" type="text" maxlength="24" placeholder="Your name" />
+          <span data-i18n="enterName">Enter your name to save the score:</span>
+          <input id="player-name" type="text" maxlength="24" data-i18n-placeholder="yourName" placeholder="Your name" />
         </label>
-        <button id="save-score-button">Save Score</button>
+        <button id="save-score-button" data-i18n="saveScore">Save Score</button>
         <section id="highscore-panel" class="hidden">
-          <h3>Top 10 Highscores</h3>
+          <h3 data-i18n="top10">Top 10 Highscores</h3>
           <table id="highscore-table">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Score</th>
-                <th>Date</th>
+                <th data-i18n="rank">#</th>
+                <th data-i18n="name">Name</th>
+                <th data-i18n="score">Score</th>
+                <th data-i18n="date">Date</th>
               </tr>
             </thead>
             <tbody></tbody>

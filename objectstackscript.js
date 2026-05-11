@@ -3,6 +3,142 @@ const tiles = [
   'c 1', 'C 1', 'c 2', 'C 2', 'c 3', 'C 3',
   't 1', 'T 1', 't 2', 'T 2', 't 3', 'T 3'
 ];
+
+const translations = {
+  en: {
+    title: "Object Stack JS",
+    subtitle: "Build the stack by choosing tiles and change conditions. Try to stack all tiles!",
+    bestScore: "Best score:",
+    status: "Status:",
+    readyToStart: "Ready to start",
+    currentStack: "Current stack",
+    noTilesYet: "No tiles yet.",
+    availableTiles: "Available tiles",
+    nextChoice: "Next choice",
+    pressStart: "Press Start Game to begin.",
+    form: "Form",
+    size: "Size",
+    color: "Color",
+    gameSummary: "Game summary",
+    tilesStacked: "Tiles stacked:",
+    unusedTiles: "Unused tiles:",
+    elapsedTime: "Elapsed time:",
+    score: "Score:",
+    startNewGame: "Start New Game",
+    gameOver: "Game Over",
+    enterName: "Enter your name to save the score:",
+    yourName: "Your name",
+    saveScore: "Save Score",
+    top10: "Top 10 Highscores",
+    rank: "#",
+    name: "Name",
+    score: "Score",
+    date: "Date",
+    finished: "Finished",
+    pickCondition: "Pick a change condition",
+    chooseTile: "Choose a tile",
+    selectNextCondition: "Select the next change condition (f / s / c).",
+    noValidTiles: "No valid tiles remain for this condition. Game over.",
+    currentTopTile: "Current top tile: {tile}. {desc}. Choose one of the highlighted tiles.",
+    congratulations: "Congratulations!",
+    stackedAll: "You stacked all tiles successfully.",
+    noValidMove: "No valid stack move remains.",
+    stackedInfo: "Stacked {count} tiles, {unused} left.",
+    duration: "Duration: {time} seconds.",
+    scoreValue: "Score: {score}.",
+    noPoints: "No points awarded for games under 4 seconds.",
+    newHighscore: "New local highscore! Enter your name and save it.",
+    chooseFirstTile: "Choose the first tile from all available tiles.",
+    hideHighscore: "Hide highscore",
+    showHighscore: "Show highscore",
+    scoreSaved: "Score saved for {name}.",
+    scoreSavedNotHigher: "Score saved. Not higher than the current highscore.",
+    nobody: "Nobody",
+    small: "A small",
+    large: "A large",
+    square: "square",
+    circle: "circle",
+    triangle: "triangle",
+    red: "red",
+    green: "green",
+    blue: "blue",
+    language: "Language",
+    english: "English",
+    finnish: "Suomi"
+  },
+  fi: {
+    title: "Object Stack JS",
+    subtitle: "Rakenna pino valitsemalla laattoja ja muuttamalla ehtoja. Yritä pinota kaikki laatat!",
+    bestScore: "Paras tulos:",
+    status: "Tila:",
+    readyToStart: "Valmis aloittamaan",
+    currentStack: "Nykyinen pino",
+    noTilesYet: "Ei laattoja vielä.",
+    availableTiles: "Saatavilla olevat laatat",
+    nextChoice: "Seuraava valinta",
+    pressStart: "Paina Aloita peli aloittaaksesi.",
+    form: "Muoto",
+    size: "Koko",
+    color: "Väri",
+    gameSummary: "Pelin yhteenveto",
+    tilesStacked: "Pinotut laatat:",
+    unusedTiles: "Käyttämättömät laatat:",
+    elapsedTime: "Kulunut aika:",
+    score: "Pisteet:",
+    startNewGame: "Aloita uusi peli",
+    gameOver: "Peli päättyi",
+    enterName: "Syötä nimesi tallentaaksesi tuloksen:",
+    yourName: "Nimesi",
+    saveScore: "Tallenna tulos",
+    top10: "Top 10 parhaat tulokset",
+    rank: "#",
+    name: "Nimi",
+    score: "Pisteet",
+    date: "Päivämäärä",
+    finished: "Valmis",
+    pickCondition: "Valitse muutosehto",
+    chooseTile: "Valitse laatta",
+    selectNextCondition: "Valitse seuraava muutosehto (m / k / v).",
+    noValidTiles: "Tälle ehdolle ei ole kelvollisia laattoja jäljellä. Peli päättyi.",
+    currentTopTile: "Nykyinen ylin laatta: {tile}. {desc}. Valitse yksi korostetuista laatoista.",
+    congratulations: "Onnittelut!",
+    stackedAll: "Pinosit kaikki laatat onnistuneesti.",
+    noValidMove: "Ei kelvollista pinosiirtoa jäljellä.",
+    stackedInfo: "Pinottu {count} laattaa, {unused} jäljellä.",
+    duration: "Kesto: {time} sekuntia.",
+    scoreValue: "Pisteet: {score}.",
+    noPoints: "Ei pisteitä alle 4 sekunnin peleistä.",
+    newHighscore: "Uusi paikallinen ennätys! Syötä nimesi ja tallenna se.",
+    chooseFirstTile: "Valitse ensimmäinen laatta kaikista saatavilla olevista laatoista.",
+    hideHighscore: "Piilota ennätykset",
+    showHighscore: "Näytä ennätykset",
+    scoreSaved: "Tulos tallennettu nimellä {name}.",
+    scoreSavedNotHigher: "Tulos tallennettu. Ei korkeampi kuin nykyinen ennätys.",
+    nobody: "Ei kukaan",
+    small: "Pieni",
+    large: "Suuri",
+    square: "neliö",
+    circle: "ympyrä",
+    triangle: "kolmio",
+    red: "punainen",
+    green: "vihreä",
+    blue: "sininen",
+    language: "Kieli",
+    english: "English",
+    finnish: "Suomi"
+  }
+};
+
+let currentLang = localStorage.getItem('objectstack-lang') || 'en';
+
+function getText(key, params = {}) {
+  let text = translations[currentLang][key] || key;
+  for (const [param, value] of Object.entries(params)) {
+    text = text.replace(`{${param}}`, value);
+  }
+  return text;
+}
+
 const shapeNames = { s: 'square', c: 'circle', t: 'triangle' };
 const colorNames = { '1': 'red', '2': 'green', '3': 'blue' };
 const formChangeMap = {
@@ -42,6 +178,7 @@ const playerNameInput = document.getElementById('player-name');
 const saveScoreButton = document.getElementById('save-score-button');
 const highscorePanel = document.getElementById('highscore-panel');
 const highscoreTableBody = document.querySelector('#highscore-table tbody');
+const langSelect = document.getElementById('lang-select');
 
 let available = [];
 let stack = [];
@@ -54,14 +191,32 @@ let finalElapsed = 0;
 let finalScore = 0;
 let highscore = { score: 0, name: 'Nobody' };
 let highscores = [];
-let lastSavedEntry = null;
+function updateLanguageTexts() {
+  document.documentElement.lang = currentLang;
+  document.title = getText('title');
+
+  // Update all elements with data-i18n
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = getText(el.dataset.i18n);
+  });
+
+  // Update placeholders
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    el.placeholder = getText(el.dataset.i18nPlaceholder);
+  });
+
+  // Update condition buttons
+  conditionButtons[0].textContent = getText('form');
+  conditionButtons[1].textContent = getText('size');
+  conditionButtons[2].textContent = getText('color');
+}
 
 function decodeTile(object) {
   const letter = object[0];
   const digit = object[2];
-  const size = letter === letter.toLowerCase() ? 'A small' : 'A large';
-  const shape = shapeNames[letter.toLowerCase()] || 'unknown shape';
-  const color = colorNames[digit] || 'unknown color';
+  const size = letter === letter.toLowerCase() ? getText('small') : getText('large');
+  const shape = getText(shapeNames[letter.toLowerCase()] || 'unknown shape');
+  const color = getText(colorNames[digit] || 'unknown color');
   return `${size} ${color} ${shape}`;
 }
 
@@ -70,7 +225,7 @@ function formatTileLabel(object) {
 }
 
 function loadHighscore() {
-  const stored = window.localStorage.getItem('objectstackenglish-highscores');
+  const stored = window.localStorage.getItem('objectstack-highscores');
   if (stored) {
     try {
       highscores = JSON.parse(stored);
@@ -84,7 +239,7 @@ function loadHighscore() {
   if (highscores.length > 0) {
     highscore = { name: highscores[0].name, score: highscores[0].score };
   } else {
-    highscore = { name: 'Nobody', score: 0 };
+    highscore = { name: getText('nobody'), score: 0 };
   }
   highscoreName.textContent = highscore.name;
   highscoreValue.textContent = highscore.score;
@@ -94,7 +249,7 @@ function saveHighscore(entry) {
   highscores.push(entry);
   highscores.sort((a, b) => b.score - a.score || new Date(a.date) - new Date(b.date));
   highscores = highscores.slice(0, 10);
-  window.localStorage.setItem('objectstackenglish-highscores', JSON.stringify(highscores));
+  window.localStorage.setItem('objectstack-highscores', JSON.stringify(highscores));
 
   const isNewBest = entry.score > highscore.score;
   if (isNewBest) {
@@ -254,7 +409,7 @@ function renderTiles() {
 function renderStack() {
   stackDisplay.innerHTML = '';
   if (stack.length === 0) {
-    stackDisplay.textContent = 'No tiles yet.';
+    stackDisplay.textContent = getText('noTilesYet');
     return;
   }
   const tileColorMap = {
@@ -306,8 +461,8 @@ function updateControls() {
 
   const score = computeScore();
   scoreValue.textContent = score;
-  gameStatus.textContent = gameOver ? 'Finished' : (condition === '' ? 'Pick a change condition' : 'Choose a tile');
-  nextChoiceTitle.textContent = gameOver ? 'Game Over' : 'Next choice';
+  gameStatus.textContent = gameOver ? getText('finished') : (condition === '' ? getText('pickCondition') : getText('chooseTile'));
+  nextChoiceTitle.textContent = gameOver ? getText('gameOver') : getText('nextChoice');
 }
 
 function calculateScore(elapsedSeconds, objectsInStack) {
@@ -355,7 +510,7 @@ function addTile(tile) {
 
   condition = '';
   render();
-  nextMessage.textContent = 'Select the next change condition (f / s / c).';
+  nextMessage.textContent = getText('selectNextCondition');
   conditionButtons.forEach(btn => btn.disabled = false);
 }
 
@@ -365,11 +520,12 @@ function chooseCondition(value) {
   condition = value;
   const nextPossible = getPossibleNextObjects(condition, available);
   if (nextPossible.length === 0) {
-    nextMessage.textContent = 'No valid tiles remain for this condition. Game over.';
+    nextMessage.textContent = getText('noValidTiles');
     finishGame(false);
     return;
   }
-  nextMessage.textContent = `Current top tile: ${stack[stack.length - 1]}. ${decodeTile(stack[stack.length - 1])}. Choose one of the highlighted tiles.`;
+  const topTile = stack[stack.length - 1];
+  nextMessage.textContent = getText('currentTopTile', { tile: topTile, desc: decodeTile(topTile) });
   render();
 }
 
@@ -383,10 +539,10 @@ function finishGame(win) {
   finalScore = calculateScore(finalElapsed, stack.length);
   elapsedTime.textContent = finalElapsed.toFixed(2);
   endScreen.classList.remove('hidden');
-  endTitle.textContent = win ? 'Congratulations!' : 'Game Over';
+  endTitle.textContent = win ? getText('congratulations') : getText('gameOver');
   endDescription.textContent = win
-    ? 'You stacked all tiles successfully.'
-    : 'No valid stack move remains.';
+    ? getText('stackedAll')
+    : getText('noValidMove');
   evaluateFinalScore(win);
   render();
 }
@@ -397,14 +553,14 @@ function evaluateFinalScore(win) {
   const unusedObjects = available.length;
   const score = finalScore;
   const message = [];
-  message.push(`Stacked ${objectsInStack} tiles, ${unusedObjects} left.`);
-  message.push(`Duration: ${duration} seconds.`);
-  message.push(`Score: ${score}.`);
+  message.push(getText('stackedInfo', { count: objectsInStack, unused: unusedObjects }));
+  message.push(getText('duration', { time: duration }));
+  message.push(getText('scoreValue', { score: score }));
   if (finalElapsed < 4) {
-    message.push('No points awarded for games under 4 seconds.');
+    message.push(getText('noPoints'));
   }
   if (score > highscore.score) {
-    message.push('New local highscore! Enter your name and save it.');
+    message.push(getText('newHighscore'));
   }
   nextMessage.textContent = message.join(' ');
 }
@@ -426,11 +582,11 @@ function startGame() {
   finalScore = 0;
   endScreen.classList.add('hidden');
   highscorePanel.classList.add('hidden');
-  saveScoreButton.textContent = 'Save Score';
+  saveScoreButton.textContent = getText('saveScore');
   saveScoreButton.disabled = false;
   playerNameInput.value = '';
   elapsedTime.textContent = '0.00';
-  nextMessage.textContent = 'Choose the first tile from all available tiles.';
+  nextMessage.textContent = getText('chooseFirstTile');
   render();
 }
 
@@ -443,7 +599,7 @@ conditionButtons.forEach(button => {
 newGameButton.addEventListener('click', startGame);
 
 saveScoreButton.addEventListener('click', () => {
-  if (saveScoreButton.textContent === 'Save Score') {
+  if (saveScoreButton.textContent === getText('saveScore')) {
     const name = playerNameInput.value.trim() || 'Anonymous';
     const score = computeScore();
     const entry = {
@@ -455,22 +611,40 @@ saveScoreButton.addEventListener('click', () => {
     const saved = saveHighscore(entry);
     renderHighscoreTable();
     highscorePanel.classList.remove('hidden');
-    saveScoreButton.textContent = 'Hide highscore';
+    saveScoreButton.textContent = getText('hideHighscore');
     saveScoreButton.disabled = false;
 
     if (saved) {
-      endDescription.textContent = `Score saved for ${name}.`;
+      endDescription.textContent = getText('scoreSaved', { name });
     } else {
-      endDescription.textContent = 'Score saved. Not higher than the current highscore.';
+      endDescription.textContent = getText('scoreSavedNotHigher');
     }
-  } else if (saveScoreButton.textContent === 'Hide highscore') {
+  } else if (saveScoreButton.textContent === getText('hideHighscore')) {
     highscorePanel.classList.add('hidden');
-    saveScoreButton.textContent = 'Show highscore';
-  } else if (saveScoreButton.textContent === 'Show highscore') {
+    saveScoreButton.textContent = getText('showHighscore');
+  } else if (saveScoreButton.textContent === getText('showHighscore')) {
     highscorePanel.classList.remove('hidden');
-    saveScoreButton.textContent = 'Hide highscore';
+    saveScoreButton.textContent = getText('hideHighscore');
+  }
+});
+
+langSelect.addEventListener('change', () => {
+  currentLang = langSelect.value;
+  localStorage.setItem('objectstack-lang', currentLang);
+  updateLanguageTexts();
+  // Update default highscore name if no highscores
+  if (highscores.length === 0) {
+    highscore.name = getText('nobody');
+    highscoreName.textContent = highscore.name;
+  }
+  // Re-render to update dynamic texts
+  render();
+  if (gameOver) {
+    evaluateFinalScore(finalScore > 0); // Re-evaluate to update messages
   }
 });
 
 loadHighscore();
+langSelect.value = currentLang;
+updateLanguageTexts();
 startGame();
