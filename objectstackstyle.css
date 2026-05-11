@@ -97,8 +97,9 @@ main {
 
 .tile-grid {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 8px;
+  grid-template-columns: repeat(6, 56px);
+  justify-content: start;
+  gap: 10px;
 }
 
 .tile-card {
@@ -365,8 +366,9 @@ main {
   }
 
   .tile-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 6px;
+    grid-template-columns: repeat(4, 56px);
+    justify-content: start;
+    gap: 10px;
   }
 
   .tile-card {
