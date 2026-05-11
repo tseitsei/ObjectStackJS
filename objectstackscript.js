@@ -443,30 +443,32 @@ conditionButtons.forEach(button => {
 newGameButton.addEventListener('click', startGame);
 
 saveScoreButton.addEventListener('click', () => {
-  if (saveScoreButton.textContent === 'Show highscore') {
+  if (saveScoreButton.textContent === 'Save Score') {
+    const name = playerNameInput.value.trim() || 'Anonymous';
+    const score = computeScore();
+    const entry = {
+      name,
+      score,
+      date: new Date().toISOString(),
+    };
+    lastSavedEntry = entry;
+    const saved = saveHighscore(entry);
     renderHighscoreTable();
-    highscorePanel.classList.toggle('hidden');
-    return;
-  }
+    highscorePanel.classList.remove('hidden');
+    saveScoreButton.textContent = 'Hide highscore';
+    saveScoreButton.disabled = false;
 
-  const name = playerNameInput.value.trim() || 'Anonymous';
-  const score = computeScore();
-  const entry = {
-    name,
-    score,
-    date: new Date().toISOString(),
-  };
-  lastSavedEntry = entry;
-  const saved = saveHighscore(entry);
-  renderHighscoreTable();
-  highscorePanel.classList.remove('hidden');
-  saveScoreButton.textContent = 'Show highscore';
-  saveScoreButton.disabled = true;
-
-  if (saved) {
-    endDescription.textContent = `Score saved for ${name}.`;
-  } else {
-    endDescription.textContent = 'Score saved. Not higher than the current highscore.';
+    if (saved) {
+      endDescription.textContent = `Score saved for ${name}.`;
+    } else {
+      endDescription.textContent = 'Score saved. Not higher than the current highscore.';
+    }
+  } else if (saveScoreButton.textContent === 'Hide highscore') {
+    highscorePanel.classList.add('hidden');
+    saveScoreButton.textContent = 'Show highscore';
+  } else if (saveScoreButton.textContent === 'Show highscore') {
+    highscorePanel.classList.remove('hidden');
+    saveScoreButton.textContent = 'Hide highscore';
   }
 });
 

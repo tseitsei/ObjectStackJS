@@ -262,6 +262,10 @@ main {
   margin-top: 14px;
 }
 
+#highscore-panel h3 {
+  margin: 0 0 12px;
+}
+
 #highscore-table {
   width: 100%;
   border-collapse: collapse;
