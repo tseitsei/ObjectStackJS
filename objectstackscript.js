@@ -676,3 +676,10 @@ langSelect.addEventListener('change', () => {
     evaluateFinalScore(lastGameWin);
   }
 });
+
+loadHighscore();
+langSelect.value = currentLang;
+updateLanguageTexts();
+// Show all tiles in ready state
+available = [...tiles];
+render();
