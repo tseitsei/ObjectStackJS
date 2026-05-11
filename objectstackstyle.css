@@ -104,7 +104,10 @@ main {
 .tile-card {
   display: grid;
   place-items: center;
-  min-height: 38px;
+  width: 56px;
+  min-width: 56px;
+  height: 56px;
+  min-height: 56px;
   padding: 8px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.08);
@@ -134,6 +137,10 @@ main {
 
 .tile-card.invalid {
   opacity: 0.25;
+}
+
+.stack-display .tile-card {
+  min-width: 56px;
 }
 
 .controls-panel {
@@ -363,7 +370,10 @@ main {
   }
 
   .tile-card {
-    min-height: 34px;
+    width: 56px;
+    min-width: 56px;
+    height: 56px;
+    min-height: 56px;
     padding: 7px;
     border-radius: 10px;
   }
